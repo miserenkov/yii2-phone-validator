@@ -9,7 +9,6 @@
 
 namespace miserenkov\validators;
 
-use Yii;
 use yii\validators\Validator;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberFormat;
@@ -45,14 +44,15 @@ class PhoneValidator extends Validator
     /**
      * @var string
      */
-    public $message = 'Phone number does not seem to be a valid phone number';
+    public $notValidPhoneNumberMessage;
 
     /**
      * @var string
      */
-    public $numberParseExceptionMessage = 'Unexpected Phone Number Format';
+    public $numberParseExceptionMessage;
 
     /**
+     * PhoneNumberUtil Instance
      * @var PhoneNumberUtil
      */
     private static $_phoneUtil = null;
@@ -61,6 +61,19 @@ class PhoneValidator extends Validator
      * @var bool
      */
     private $_successValidation = false;
+
+    public function init()
+    {
+        parent::init();
+
+        if (empty($this->notValidPhoneNumberMessage)) {
+            $this->notValidPhoneNumberMessage = 'Phone number does not seem to be a valid phone number';
+        }
+
+        if (empty($this->numberParseExceptionMessage)) {
+            $this->numberParseExceptionMessage = 'Unexpected Phone Number Format';
+        }
+    }
 
     /**
      * Validate attribute
@@ -98,12 +111,12 @@ class PhoneValidator extends Validator
                     break;
                 }
             } catch (NumberParseException $e) {
-                $this->addError($model, $attribute, Yii::t('app', $this->numberParseExceptionMessage));
+                $this->addError($model, $attribute, $this->numberParseExceptionMessage);
             }
         }
 
         if (!$this->_successValidation) {
-            $this->addError($model, $attribute, Yii::t('app', $this->message));
+            $this->addError($model, $attribute, $this->notValidPhoneNumberMessage);
         }
 
         return $this->_successValidation;
