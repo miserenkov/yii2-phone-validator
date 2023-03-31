@@ -1,0 +1,25 @@
+includes:
+    - vendor/proget-hq/phpstan-yii2/extension.neon
+
+parameters:
+    parallel:
+        processTimeout: 1200.0
+
+    stubFiles:
+        - phpstan-annotation.php.stub
+
+    yii2:
+        config_path: %currentWorkingDirectory%/phpstan-yii-config.php
+
+    paths:
+        - src
+
+    # The level 9 is the highest level
+    level: 9
+
+    ignoreErrors:
+
+    excludePaths:
+
+    checkMissingIterableValueType: false
+    reportUnmatchedIgnoredErrors: true

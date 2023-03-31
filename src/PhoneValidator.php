@@ -9,10 +9,11 @@
 
 namespace miserenkov\validators;
 
-use yii\validators\Validator;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
+use yii\base\Model;
+use yii\validators\Validator;
 
 /**
  * Phone validator class that validates phone numbers for given
@@ -62,7 +63,7 @@ class PhoneValidator extends Validator
      */
     private $_successValidation = false;
 
-    public function init()
+    public function init(): void
     {
         parent::init();
 
@@ -78,12 +79,12 @@ class PhoneValidator extends Validator
     /**
      * Validate attribute
      *
-     * @param \yii\base\Model $model
+     * @param Model $model
      * @param string $attribute
      *
      * @return bool
      */
-    public function validateAttribute($model, $attribute)
+    public function validateAttribute($model, $attribute): bool
     {
         $countries = [];
         if ($this->country !== null) {
@@ -125,7 +126,7 @@ class PhoneValidator extends Validator
     /**
      * @return PhoneNumberUtil
      */
-    public static function getPhoneUtil()
+    public static function getPhoneUtil(): PhoneNumberUtil
     {
         if (self::$_phoneUtil === null) {
             self::$_phoneUtil = PhoneNumberUtil::getInstance();
